@@ -1,0 +1,7 @@
+/vue-admin-template/node_modules/.cache
+.idea
+.idea/
+/.idea/workspace.xml
+/vue-admin-template/.idea/workspace.xml
+/vue-admin-template/.git
+/vue-admin-template/node_modules

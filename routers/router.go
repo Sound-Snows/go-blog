@@ -1,6 +1,7 @@
 package routers
 
 import (
+	"gin-blog/middleware"
 	"gin-blog/pkg/setting"
 	v1 "gin-blog/routers/api/v1"
 
@@ -14,7 +15,7 @@ import (
 //InitRouter 获取路由
 func InitRouter() *gin.Engine {
 	r := gin.New()
-
+    r.Use(middleware.Cors())
 	r.Use(gin.Logger())
 
 	r.Use(gin.Recovery())
@@ -22,11 +23,12 @@ func InitRouter() *gin.Engine {
 	gin.SetMode(setting.RunMode)
 
 	//
-	r.GET("/auth", api.GetAuth)
+	r.POST("/auth", api.GetAuth)
 	apiv1 := r.Group("/api/v1")
 
 	apiv1.Use(jwt.JWT())
 	{
+		apiv1.GET("/user/info",v1.GetUserInfo)
 		//获取标签列表
 		apiv1.GET("/tags", v1.GetTags)
 

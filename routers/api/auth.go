@@ -1,6 +1,7 @@
 package api
 
 import (
+	"gin-blog/middleware/request"
 	"gin-blog/models"
 	"gin-blog/pkg/e"
 	"gin-blog/pkg/logging"
@@ -19,15 +20,20 @@ type auth struct {
 
 //GetAuth is specified user exist
 func GetAuth(c *gin.Context) {
-	username := c.Query("username")
-	password := c.Query("password")
+	code:=e.INVALIDPARAMS
+	requestData,err:=request.GetJson(c)
+	if(err!=nil){
+		code=e.INVALIDPARAMS
+	}
+	username := requestData["username"].(string)
+	password := requestData["password"].(string)
 
 	valid := validation.Validation{}
 	a := auth{Username: username, Password: password}
 	ok, _ := valid.Valid(&a)
 
 	data := make(map[string]interface{})
-	code := e.INVALIDPARAMS
+
 	if ok {
 		isExist := models.CheckAuth(username, password)
 		if isExist {

@@ -28,6 +28,9 @@ var (
 
 	//JwtSecret is JWT password
 	JwtSecret string
+
+	//Cors domain name
+	DomainName string
 )
 
 func init() {
@@ -39,11 +42,16 @@ func init() {
 	LoadBase()
 	LoadServer()
 	LoadApp()
+	LoadDomainName()
 }
 
 //LoadBase is function
 func LoadBase() {
 	RunMode = Cfg.Section("").Key("RUN_MODE").MustString("debug")
+}
+//LoadDomainName is function
+func LoadDomainName(){
+	DomainName=Cfg.Section("Cors").Key("DOMAIN_NAME").MustString("*")
 }
 
 //LoadServer is function
